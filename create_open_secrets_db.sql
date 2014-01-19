@@ -41,6 +41,7 @@ CREATE TABLE committees(
 );
 
 
+-- ga in vim to get the octal of the strange character
 -- line 40935 - changed to maersk - |2008|,|C00217471|,|Maersk Inc|,,|AP Moller-Mrsk|,|C00217471|,|PB|,||,,|T6200|,|WebEC|,|Y|,|1|,1
 -- replace  with "ae" octal of 221 - :%s/\%o221/s/g
 -- line 66750 |2012|,|C00423236|,|Sunovion Pharmaceuticals|,,|Sumitomo Chemicalÿ|,|C00423236|,|PB|,,| |,|H4300|,|Hvr06|,|N|,|0|,1
@@ -75,15 +76,53 @@ CREATE TABLE individual_contributions(
   committee_id varchar(255),
   other_id varchar(255),
   gender varchar(255),
+  old_format_employer_occupation varchar(255),
   microfilm varchar(255),
   occupation varchar(255),
   employer varchar(255),
   source varchar(255)
 );
 
--- NOT WORKING!! extra column(s?) in text document causing issues
+-- line 99757 |2012|,|1031120130013541703|,|h1001345604 |,|SHLESINGER, GERALD J|,|N00009818|,|Della Spiga Caf|,||,|G2900|,09/16/2012,1500,||,|LAS VEGAS|,|NV|,|89117|,|DL|,|15J|,|C00325738|,,|M|,,|PRESIDENT|,|DELLA SPIGA CAFE-FORUM SHOPS AT CAESA|,|Name |
+-- replace   with "e" - octal value of 202 - :%s/\%o202/s/g
+-- line 862848 weird space encoding |2012|,|4021020121150746444|,|i30032354081|,|BARAI, BHARAT|,|N00003878|,|Premier Oncology Hematology Assoc|,||,|H1130|,12/09/2011,500,|9903 Twin Creek Blvd|,|MUNSTER|,|IN|,|46321|,|RL|,|15 |,|C00500173|,,|M|,|12970307857|,|PHYSICIAN|,|PREMIER ONCOLOGY HEMATOLOGY ASSOCIATES|,|Name |
+-- replace with " " - octal value of 240 - :%s/\%o240/ /g
+-- line 894151 |2012|,|4020720131180961497|,|k0001118348 |,|NAEGER, HENRI MR JR|,|C00003418|,|Maersk Line|,|AP Moller-Mrsk|,|T6200|,10/12/2012,500,|2112 Old Indian Rd|,|RICHMOND|,|VA|,|23235|,|RP|,|15 |,|C00003418|,,|M|,|13960745377|,|U. S. MERCHANT MARINE|,|MAERSK LINE LIMITED|,|WEBWH|
+-- replace  with "ae" - octal value of 221 - :%s/\%o221/ae/g
+-- line 937930 |2012|,|4021020121150746530|,|m0001325952 |,|SHREWSBURY, RONDA|,|N00003878|,|Realamerica Development|,||,|Y4000|,11/28/2011,1000,|8038 Dean Roadÿ|,|INDIANAPOLIS|,|IN|,|46240|,|RL|,|15 |,|C00500173|,,|F|,|12970307885|,|Owner|,|RealAmerica Development|,|     |
+-- replace ÿ with "s" - octal value of 377 - :%s/\%o377/s/g
+-- line 2090571 |2012|,|4082820121161661910|,|m0001631653 |,|THORNHILL, DARRELL|,|C00494740|,|Ghirardelli Chocolate Co|,|Chocoladefabriken Lindt & Sprngli|,|Y4000|,07/07/2012,500,|28865 Bay Heights Rd|,|HAYWARD|,|CA|,|94542|,|DP|,|15 |,|C00494740|,,|M|,|12952687389|,|SAFETY/SECURITY MANAGER|,|GHIRARDELLI CHOCOLATE CO.|,|     |
+-- replace  with "e" - octal value of 201 - :%s/\%o201/e/g
+-- line 3258505 |2012|,|4121220121174569386|,|h1001325955A|,|COOK, QUARRIER B MRS|,|C00193433|,||,||,|J7400|,10/21/2012,1500,|1085 Camino MaÝana|,|SANTA FE|,|NM|,|87501|,|PI|,|15 |,|C00193433|,,|F|,|12940795257|,|RETIRED|,|RETIRED|,|P/PAC|
+-- replace Ý with "e" - octal value of 335 - :%s/\%o335/Y/g
+
+-- The format for the old pre-2012 files has an extra field for the combined employer/occupation field.
 COPY individual_contributions(cycle, fec_trans_id, contributor_id, contributor_name, recipient_id, org_name, ult_org, real_code, date, amount, street, city, state, zip, recip_code, type, committee_id, other_id, gender, microfilm, occupation, employer, source)
-from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/indivs14.txt' 
+from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_new_individual.txt'
+WITH CSV QUOTE '|' DELIMITER ',';
+
+COPY individual_contributions(cycle, fec_trans_id, contributor_id, contributor_name, recipient_id, org_name, ult_org, real_code, date, amount, street, city, state, zip, recip_code, type, committee_id, other_id, gender, old_format_employer_occupation, microfilm, occupation, employer, source)
+from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_old_individual_aa'
+WITH CSV QUOTE '|' DELIMITER ',';
+
+COPY individual_contributions(cycle, fec_trans_id, contributor_id, contributor_name, recipient_id, org_name, ult_org, real_code, date, amount, street, city, state, zip, recip_code, type, committee_id, other_id, gender, old_format_employer_occupation, microfilm, occupation, employer, source)
+from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_old_individual_ab'
+WITH CSV QUOTE '|' DELIMITER ',';
+
+COPY individual_contributions(cycle, fec_trans_id, contributor_id, contributor_name, recipient_id, org_name, ult_org, real_code, date, amount, street, city, state, zip, recip_code, type, committee_id, other_id, gender, old_format_employer_occupation, microfilm, occupation, employer, source)
+from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_old_individual_ac'
+WITH CSV QUOTE '|' DELIMITER ',';
+
+COPY individual_contributions(cycle, fec_trans_id, contributor_id, contributor_name, recipient_id, org_name, ult_org, real_code, date, amount, street, city, state, zip, recip_code, type, committee_id, other_id, gender, old_format_employer_occupation, microfilm, occupation, employer, source)
+from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_old_individual_ad'
+WITH CSV QUOTE '|' DELIMITER ',';
+
+COPY individual_contributions(cycle, fec_trans_id, contributor_id, contributor_name, recipient_id, org_name, ult_org, real_code, date, amount, street, city, state, zip, recip_code, type, committee_id, other_id, gender, old_format_employer_occupation, microfilm, occupation, employer, source)
+from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_old_individual_ae'
+WITH CSV QUOTE '|' DELIMITER ',';
+
+COPY individual_contributions(cycle, fec_trans_id, contributor_id, contributor_name, recipient_id, org_name, ult_org, real_code, date, amount, street, city, state, zip, recip_code, type, committee_id, other_id, gender, old_format_employer_occupation, microfilm, occupation, employer, source)
+from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_old_individual_af'
 WITH CSV QUOTE '|' DELIMITER ',';
 
 DROP TABLE pacs;
@@ -146,7 +185,7 @@ CREATE TABLE pac_to_pacs(
 -- weird space character encoding between "campaign" and "co"
 --  octal 240 :%s/\%o240//g
 
-COPY pac_to_pac(cycle, fec_rec_no, filer_id, donor_committee, contrib_lend_trans, city, state, zip, fec_occ_emp, prim_code, date, amount, recipient_id, party, other_id, recip_code, recip_prim_code, amend, report, pg, microfilm, type, real_code, source )
+COPY pac_to_pacs(cycle, fec_rec_no, filer_id, donor_committee, contrib_lend_trans, city, state, zip, fec_occ_emp, prim_code, date, amount, recipient_id, party, other_id, recip_code, recip_prim_code, amend, report, pg, microfilm, type, real_code, source )
 from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_pac_other.txt' 
 WITH CSV QUOTE '|' DELIMITER ',';
 
