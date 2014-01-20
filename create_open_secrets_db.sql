@@ -109,6 +109,12 @@ COPY individual_contributions(cycle, fec_trans_id, contributor_id, contributor_n
 from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_old_individual_ab'
 WITH CSV QUOTE '|' DELIMITER ',';
 
+--Line 3383849 - join together|2010|,|0447954|,|i3003115759 |,|GROGG, STANLEY E|,|N00005601|,|OSU Center for Health Sciences
+--|,|Oklahoma State University|,|H1100|,06/23/2009,500,||,|TULSA|,|OK|,|74105|,|RW|,|15 |,|C00409888|,||,|M|,|OSU-CHS/PHYSICIAN|,|29020303024|,||,||,|I/Rpt|
+-- Line 3188803 join together|2010|,|0100443|,|i3003114485 |,|GOELZER, DANIEL L MR|,|C00003418|,|Public Company Accounting Oversight Bd
+-- |,||,|X4000|,03/10/2009,1000,|5941 Searl Terrace|,|BETHESDA|,|MD|,|20816|,|RP|,|15 |,|C00003418|,||,|M|,|P.C.A.O.B./ATTORNEY|,|29992007891|,|Attorney|,|PCAOB|,|webDM|
+-- line 3737255
+
 COPY individual_contributions(cycle, fec_trans_id, contributor_id, contributor_name, recipient_id, org_name, ult_org, real_code, date, amount, street, city, state, zip, recip_code, type, committee_id, other_id, gender, old_format_employer_occupation, microfilm, occupation, employer, source)
 from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_old_individual_ac'
 WITH CSV QUOTE '|' DELIMITER ',';
@@ -119,10 +125,6 @@ WITH CSV QUOTE '|' DELIMITER ',';
 
 COPY individual_contributions(cycle, fec_trans_id, contributor_id, contributor_name, recipient_id, org_name, ult_org, real_code, date, amount, street, city, state, zip, recip_code, type, committee_id, other_id, gender, old_format_employer_occupation, microfilm, occupation, employer, source)
 from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_old_individual_ae'
-WITH CSV QUOTE '|' DELIMITER ',';
-
-COPY individual_contributions(cycle, fec_trans_id, contributor_id, contributor_name, recipient_id, org_name, ult_org, real_code, date, amount, street, city, state, zip, recip_code, type, committee_id, other_id, gender, old_format_employer_occupation, microfilm, occupation, employer, source)
-from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_old_individual_af'
 WITH CSV QUOTE '|' DELIMITER ',';
 
 DROP TABLE pacs;
