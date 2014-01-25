@@ -1,4 +1,3 @@
-
 def combine_files(new_filename, filename_array)
   File.open(new_filename + ".txt", "w") do |combined_file|
     filename_array.each do |f|
@@ -20,27 +19,6 @@ end
 
 def fix_file_formatting_errors
   system('sed -i ".original" -e "s/PREDKI, \|STANLEY/PREDKI, STANLEY/g" -e "s/THE \|HILLS/THE HILLS/g" -e "s/\|\|kirby, Rev Dr \|\|jerry/\|kirby, Rev Dr jerry/g" -e "s/MCCORMICK, GARY \|D/MCCORMICK, GARY D/g" -e "s/\|\|palmetto/|\palmetto/g" combined_old_individual.txt')
-  # this is not currently working - Just run this sed command from the command line
-  #remove_random_newline = "sed -i '.original' -e ':a' -e 'N' -e '$!ba' -e 's/Oversight Bd\n/Oversight Bd/g' -e 's/Sciences\n/Sciences/g' combined_old_individual.txt"
-  #
-  #File.open("combined_old_individual.txt", "r") do |f|
-    #File.open("combined_old_individual_new.txt","w") do |new_file|
-      #to_combine = nil
-      #f.each_line do |line|
-        #if(/Oversight Bd$/ =~ line || /Sciences$/ =~ line)
-          #to_combine = line
-        #else
-          #if to_combine.nil?
-            #new_file.puts line
-          #else
-            #combined_line = to_combine + line
-            #new_file.puts combined_line
-            #to_combine = nil
-          #end
-        #end
-      #end
-    #end
-  #end
   system("mv -f combined_old_individual_new.txt combined_old_individual.txt")
 end
 
@@ -69,5 +47,3 @@ end
 combine_non_individual
 combine_individual
 fix_file_formatting_errors
-
-
