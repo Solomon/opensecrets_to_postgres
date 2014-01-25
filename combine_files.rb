@@ -1,6 +1,5 @@
 
 def combine_files(new_filename, filename_array)
-  puts "Creating #{new_filename}"
   File.open(new_filename + ".txt", "w") do |combined_file|
     filename_array.each do |f|
       text = File.open(f, "r").read
@@ -15,15 +14,12 @@ end
 def format_file(new_filename)
   format_command = "iconv -f utf-8 -t utf-8 -c #{new_filename}.txt > #{new_filename}_formatted.txt"
   system(format_command)
-  puts "Formatted #{new_filename}"
   system("rm #{new_filename}.txt")
   system("mv -f #{new_filename}_formatted.txt #{new_filename}.txt")
 end
 
 def fix_file_formatting_errors
-  puts "fixing formatting errors"
   system('sed -i ".original" -e "s/PREDKI, \|STANLEY/PREDKI, STANLEY/g" -e "s/THE \|HILLS/THE HILLS/g" -e "s/\|\|kirby, Rev Dr \|\|jerry/\|kirby, Rev Dr jerry/g" -e "s/MCCORMICK, GARY \|D/MCCORMICK, GARY D/g" -e "s/\|\|palmetto/|\palmetto/g" combined_old_individual.txt')
-  puts "finished first run through"
   # this is not currently working - Just run this sed command from the command line
   #remove_random_newline = "sed -i '.original' -e ':a' -e 'N' -e '$!ba' -e 's/Oversight Bd\n/Oversight Bd/g' -e 's/Sciences\n/Sciences/g' combined_old_individual.txt"
   #
@@ -75,4 +71,3 @@ combine_individual
 fix_file_formatting_errors
 
 
-system("split -l 4000000 combined_old_individual.txt combined_old_individual_")
