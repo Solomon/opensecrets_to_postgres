@@ -150,5 +150,25 @@ CREATE TABLE pac_to_pacs(
 );
 
 COPY pac_to_pacs(cycle, fec_rec_no, filer_id, donor_committee, contrib_lend_trans, city, state, zip, fec_occ_emp, prim_code, date, amount, recipient_id, party, other_id, recip_code, recip_prim_code, amend, report, pg, microfilm, type, real_code, source )
-from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_pac_other.txt' 
+from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_pac_other.txt'
 WITH CSV QUOTE '|' DELIMITER ',';
+
+DROP TABLE industry_codes;
+
+CREATE TABLE industry_codes(
+  id bigserial primary key,
+  category_code varchar(255),
+  category_name varchar(255),
+  industry_code varchar(255),
+  industry_name varchar(255),
+  sector varchar(255),
+  sector_long varchar(255)
+);
+
+-- Line 443 extra column at end of line needs to be deleted
+COPY industry_codes(category_code, category_name, industry_code, industry_name, sector, sector_long)
+from '/Users/sik/Downloads/CRP_Categories.txt'
+WITH CSV DELIMITER E'\t';
+
+CREATE INDEX ON candidates (cid);
+CREATE INDEX ON individual_contributions (recipient_id);
