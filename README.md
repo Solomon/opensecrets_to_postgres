@@ -98,3 +98,7 @@ Open up a github issue and I'll do my best to help.
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+### Credits
+
+![open_secrets](http://assets.opensecrets.org/MyOS/img/opensecrets_databy250x88.gif)
