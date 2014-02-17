@@ -172,3 +172,8 @@ WITH CSV DELIMITER E'\t';
 
 CREATE INDEX ON candidates (cid);
 CREATE INDEX ON individual_contributions (recipient_id);
+
+CREATE INDEX ON individual_contributions (real_code);
+CREATE INDEX ON pacs (cid);
+CREATE INDEX ON pacs (real_code);
+CREATE INDEX ON industry_codes (category_code);
