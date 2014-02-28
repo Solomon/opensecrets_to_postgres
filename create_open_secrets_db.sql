@@ -107,7 +107,7 @@ CREATE TABLE pacs(
   fec_rec_no varchar(255),
   pac_id varchar(255),
   cid varchar(255),
-  amount decimal,
+  amount integer,
   date timestamp,
   real_code varchar(255),
   type varchar(255),
@@ -177,3 +177,19 @@ CREATE INDEX ON individual_contributions (real_code);
 CREATE INDEX ON pacs (cid);
 CREATE INDEX ON pacs (real_code);
 CREATE INDEX ON industry_codes (category_code);
+
+DROP TABLE politicians;
+
+CREATE TABLE politicians(
+  id bigserial primary key,
+  cid varchar(255),
+  name varchar(255)
+);
+
+INSERT INTO politicians(cid, name)(
+  SELECT distinct on(cid) cid, left(first_last_party, -4)
+  FROM candidates
+);
+
+CREATE INDEX ON politicians (cid);
+CREATE INDEX ON politicians (name);
