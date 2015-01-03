@@ -193,3 +193,7 @@ INSERT INTO politicians(cid, name)(
 
 CREATE INDEX ON politicians (cid);
 CREATE INDEX ON politicians (name);
+
+CREATE INDEX ON individual_contributions (cycle);
+CREATE INDEX ON pacs (cycle);
+CREATE INDEX ON candidates (cycle);
