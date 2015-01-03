@@ -170,13 +170,6 @@ COPY industry_codes(category_code, category_name, industry_code, industry_name, 
 from '/Users/sik/Downloads/CRP_Categories.txt'
 WITH CSV DELIMITER E'\t';
 
-CREATE INDEX ON candidates (cid);
-CREATE INDEX ON individual_contributions (recipient_id);
-
-CREATE INDEX ON individual_contributions (real_code);
-CREATE INDEX ON pacs (cid);
-CREATE INDEX ON pacs (real_code);
-CREATE INDEX ON industry_codes (category_code);
 
 DROP TABLE politicians;
 
@@ -191,9 +184,43 @@ INSERT INTO politicians(cid, name)(
   FROM candidates
 );
 
+DROP TABLE pac_records;
+
+CREATE TABLE pac_records(
+  id bigserial primary key,
+  committee_id varchar(255),
+  pac_short varchar(255),
+  affiliate varchar(255),
+  ultorg varchar(255),
+  recip_id varchar(255),
+  recip_code varchar(255),
+  fec_cand_id varchar(255),
+  party varchar(255),
+  prim_code varchar(255),
+  source varchar(255),
+  sensitive varchar(255),
+  foreign_owned varchar(255)
+);
+
+INSERT INTO pac_records(committee_id, pac_short, affiliate, ultorg, recip_id, recip_code, fec_cand_id, party, prim_code, source, sensitive, foreign_owned)(
+  SELECT distinct on(committee_id)
+    committee_id, pac_short, affiliate, ultorg, recip_id, recip_code, fec_cand_id, party, prim_code, source, sensitive, foreign_owned
+  FROM committees
+);
+
+CREATE INDEX ON candidates (cid);
+CREATE INDEX ON individual_contributions (recipient_id);
+
+CREATE INDEX ON individual_contributions (real_code);
+CREATE INDEX ON pacs (cid);
+CREATE INDEX ON pacs (real_code);
+CREATE INDEX ON industry_codes (category_code);
+
 CREATE INDEX ON politicians (cid);
 CREATE INDEX ON politicians (name);
 
 CREATE INDEX ON individual_contributions (cycle);
 CREATE INDEX ON pacs (cycle);
 CREATE INDEX ON candidates (cycle);
+
+CREATE INDEX ON pac_records (committee_id);
