@@ -17,7 +17,7 @@ CREATE TABLE candidates(
 );
 
 COPY candidates(cycle, fec_cand_id, cid, first_last_party, party, dist_id_run_for, dist_id_currently_held, current_candidate, cycle_candidate, crpico, recip_code, nopacs) 
-from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_cands.txt' 
+from '/Users/sik/Solomon/programming/campaign_finance_projects/campaign_finance_code/combined_cands.txt' 
 WITH CSV QUOTE '|' DELIMITER ',';
 
 DROP TABLE committees;
@@ -41,7 +41,7 @@ CREATE TABLE committees(
 );
 
 COPY committees(cycle, committee_id, pac_short, affiliate, ultorg, recip_id, recip_code, fec_cand_id, party, prim_code, source, sensitive, foreign_owned, active)
-from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_cmtes.txt' 
+from '/Users/sik/Solomon/programming/campaign_finance_projects/campaign_finance_code/combined_cmtes.txt' 
 WITH CSV QUOTE '|' DELIMITER ',';
 
 DROP TABLE individual_contributions;
@@ -76,27 +76,27 @@ CREATE TABLE individual_contributions(
 
 -- The format for the old pre-2012 files has an extra field for the combined employer/occupation field.
 COPY individual_contributions(cycle, fec_trans_id, contributor_id, contributor_name, recipient_id, org_name, ult_org, real_code, date, amount, street, city, state, zip, recip_code, type, committee_id, other_id, gender, microfilm, occupation, employer, source)
-from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_new_individual.txt'
+from '/Users/sik/Solomon/programming/campaign_finance_projects/campaign_finance_code/combined_new_individual.txt'
 WITH CSV QUOTE '|' DELIMITER ',';
 
 COPY individual_contributions(cycle, fec_trans_id, contributor_id, contributor_name, recipient_id, org_name, ult_org, real_code, date, amount, street, city, state, zip, recip_code, type, committee_id, other_id, gender, old_format_employer_occupation, microfilm, occupation, employer, source)
-from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_old_individual_aa'
+from '/Users/sik/Solomon/programming/campaign_finance_projects/campaign_finance_code/combined_old_individual_aa'
 WITH CSV QUOTE '|' DELIMITER ',';
 
 COPY individual_contributions(cycle, fec_trans_id, contributor_id, contributor_name, recipient_id, org_name, ult_org, real_code, date, amount, street, city, state, zip, recip_code, type, committee_id, other_id, gender, old_format_employer_occupation, microfilm, occupation, employer, source)
-from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_old_individual_ab'
+from '/Users/sik/Solomon/programming/campaign_finance_projects/campaign_finance_code/combined_old_individual_ab'
 WITH CSV QUOTE '|' DELIMITER ',';
 
 COPY individual_contributions(cycle, fec_trans_id, contributor_id, contributor_name, recipient_id, org_name, ult_org, real_code, date, amount, street, city, state, zip, recip_code, type, committee_id, other_id, gender, old_format_employer_occupation, microfilm, occupation, employer, source)
-from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_old_individual_ac'
+from '/Users/sik/Solomon/programming/campaign_finance_projects/campaign_finance_code/combined_old_individual_ac'
 WITH CSV QUOTE '|' DELIMITER ',';
 
 COPY individual_contributions(cycle, fec_trans_id, contributor_id, contributor_name, recipient_id, org_name, ult_org, real_code, date, amount, street, city, state, zip, recip_code, type, committee_id, other_id, gender, old_format_employer_occupation, microfilm, occupation, employer, source)
-from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_old_individual_ad'
+from '/Users/sik/Solomon/programming/campaign_finance_projects/campaign_finance_code/combined_old_individual_ad'
 WITH CSV QUOTE '|' DELIMITER ',';
 
 COPY individual_contributions(cycle, fec_trans_id, contributor_id, contributor_name, recipient_id, org_name, ult_org, real_code, date, amount, street, city, state, zip, recip_code, type, committee_id, other_id, gender, old_format_employer_occupation, microfilm, occupation, employer, source)
-from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_old_individual_ae'
+from '/Users/sik/Solomon/programming/campaign_finance_projects/campaign_finance_code/combined_old_individual_ae'
 WITH CSV QUOTE '|' DELIMITER ',';
 
 DROP TABLE pacs;
@@ -116,7 +116,7 @@ CREATE TABLE pacs(
 );
 
 COPY pacs(cycle, fec_rec_no, pac_id, cid, amount, date, real_code, type, di, fec_cand_id)
-from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_pacs.txt' 
+from '/Users/sik/Solomon/programming/campaign_finance_projects/campaign_finance_code/combined_pacs.txt' 
 WITH CSV QUOTE '|' DELIMITER ',';
 
 DROP TABLE pac_to_pacs;
@@ -150,7 +150,7 @@ CREATE TABLE pac_to_pacs(
 );
 
 COPY pac_to_pacs(cycle, fec_rec_no, filer_id, donor_committee, contrib_lend_trans, city, state, zip, fec_occ_emp, prim_code, date, amount, recipient_id, party, other_id, recip_code, recip_prim_code, amend, report, pg, microfilm, type, real_code, source )
-from '/Users/sik/Solomon/campaign_finance/opensecrets_data/combined/campaign_finance/combined_pac_other.txt'
+from '/Users/sik/Solomon/programming/campaign_finance_projects/campaign_finance_code/combined_pac_other.txt'
 WITH CSV QUOTE '|' DELIMITER ',';
 
 DROP TABLE industry_codes;
