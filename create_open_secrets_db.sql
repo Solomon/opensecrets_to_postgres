@@ -13,7 +13,10 @@ CREATE TABLE candidates(
   cycle_candidate varchar(255),
   crpico varchar(255),
   recip_code varchar(255),
-  nopacs varchar(255)
+  nopacs varchar(255),
+  raised_from_pacs integer,
+  raised_from_individuals integer,
+  raised_total integer
 );
 
 COPY candidates(cycle, fec_cand_id, cid, first_last_party, party, dist_id_run_for, dist_id_currently_held, current_candidate, cycle_candidate, crpico, recip_code, nopacs) 
@@ -224,3 +227,34 @@ CREATE INDEX ON pacs (cycle);
 CREATE INDEX ON candidates (cycle);
 
 CREATE INDEX ON pac_records (committee_id);
+
+-- Denormalize candidates to show total raised for each candidate by election cycle
+
+with candidate_individual_contributions as (
+  SELECT c.id as candidate_id
+  , SUM(i.amount) as total_individual
+  FROM candidates c
+  JOIN individual_contributions i ON i.recipient_id = c.cid AND i.cycle = c.cycle
+  GROUP BY c.id
+)
+
+UPDATE candidates SET raised_from_individuals = candidate_individual_contributions.total_individual
+FROM candidate_individual_contributions
+WHERE candidate_individual_contributions.candidate_id = candidates.id;
+
+
+with pac_contributions as (
+  SELECT c.id as candidate_id
+  , SUM(p.amount) as total_pac
+  FROM candidates c
+  JOIN pacs p ON p.cid = c.cid AND p.cycle = c.cycle
+  WHERE p.type != '24A' AND p.type != '24N'
+  GROUP BY c.id
+)
+
+UPDATE candidates SET raised_from_pacs = pac_contributions.total_pac
+FROM pac_contributions
+WHERE pac_contributions.candidate_id = candidates.id;
+
+UPDATE candidates SET raised_total = COALESCE(raised_from_individuals, 0) + COALESCE(raised_from_pacs, 0);
+
