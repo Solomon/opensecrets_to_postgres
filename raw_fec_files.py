@@ -43,3 +43,4 @@ def combine_committee_files():
 #and I see the NUL chars highlighted. 
 
 # run in2csv -d "|" -v combined_fec_committees.csv > fec_committees.csv
+# csvsql --db postgresql:///campaign_finance --table fec_committees --insert filename.csv
