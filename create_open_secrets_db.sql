@@ -16,7 +16,8 @@ CREATE TABLE candidates(
   nopacs varchar(255),
   raised_from_pacs integer,
   raised_from_individuals integer,
-  raised_total integer
+  raised_total integer,
+  raised_unitemized integer
 );
 
 COPY candidates(cycle, fec_cand_id, cid, first_last_party, party, dist_id_run_for, dist_id_currently_held, current_candidate, cycle_candidate, crpico, recip_code, nopacs) 
