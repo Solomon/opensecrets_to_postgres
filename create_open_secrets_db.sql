@@ -259,3 +259,15 @@ WHERE pac_contributions.candidate_id = candidates.id;
 
 UPDATE candidates SET raised_total = COALESCE(raised_from_individuals, 0) + COALESCE(raised_from_pacs, 0);
 
+
+-- Add backers table, for the kickstarter backers (and other backers)
+
+DROP TABLE backers;
+
+CREATE TABLE backers(
+  id bigserial primary key,
+  cid varchar(255),
+  name varchar(255),
+  backer_level varchar(255),
+  kickstarter boolean
+);
