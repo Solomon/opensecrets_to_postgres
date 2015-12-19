@@ -271,3 +271,38 @@ CREATE TABLE backers(
   backer_level varchar(255),
   kickstarter boolean
 );
+
+DROP TABLE user_submissions;
+
+CREATE TABLE user_submissions(
+  id bigserial primary key,
+  title text,
+  description text,
+  user_name varchar(255),
+  url varchar(255),
+  cid varchar(255),
+  approved_at timestamp,
+  approved_by varchar(255),
+  promote boolean
+);
+
+DROP TABLE fec_api_committees;
+
+CREATE TABLE fec_api_committees(
+  id bigserial primary key,
+  cid varchar(255),
+  created_at timestamp,
+  updated_at timestamp,
+  cycle varchar(255),
+  individual_unitemized_contributions integer,
+  individual_itemized_contributions integer,
+  individual_contributions integer,
+  designation varchar(255),
+  organization_type varchar(255),
+  name text,
+  committee_id varchar(255),
+  committee_type varchar(255)
+);
+
+CREATE UNIQUE INDEX unique_committee_and_cycle ON fec_api_committees (committee_id, cycle);
+CREATE INDEX ON fec_api_committees (cid);
