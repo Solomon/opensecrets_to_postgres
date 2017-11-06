@@ -11,6 +11,10 @@ the hard way. Hopefully this saves future researchers lots of time.
 For those that care only about getting the data, I uploaded a `pg_dump`
 of the database to S3.
 
+The specific command I used was:
+
+`pg_dump -Fc campaign_finance > campaign_finance.dump`
+
 You can download the database from this link:
 
 [database dump](https://s3.amazonaws.com/campaign_finance/campaign_finance.dump)
