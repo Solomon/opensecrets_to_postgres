@@ -257,7 +257,22 @@ UPDATE candidates SET raised_from_pacs = pac_contributions.total_pac
 FROM pac_contributions
 WHERE pac_contributions.candidate_id = candidates.id;
 
-UPDATE candidates SET raised_total = COALESCE(raised_from_individuals, 0) + COALESCE(raised_from_pacs, 0);
+with cycle_unitemized as (
+  SELECT f.cid as cid
+  , f.cycle as cycle
+  , SUM(f.individual_unitemized_contributions) as total_unitemized
+  FROM fec_api_committees f
+  WHERE f.designation = 'P'
+  AND f.individual_unitemized_contributions IS NOT NULL
+  GROUP BY f.cid, f.cycle
+)
+
+UPDATE candidates SET raised_unitemized = cu.total_unitemized
+FROM cycle_unitemized cu
+WHERE candidates.cycle = cu.cycle
+AND candidates.cid = cu.cid;
+
+UPDATE candidates SET raised_total = COALESCE(raised_from_individuals, 0) + COALESCE(raised_from_pacs, 0) + COALESCE(raised_unitemized, 0);
 
 
 -- Add backers table, for the kickstarter backers (and other backers)
